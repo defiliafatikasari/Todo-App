@@ -35,17 +35,21 @@
                   <div class="card-header"><div class="card-title">Formulir Edit Data</div></div>
                   <!--end::Header-->
                   <!--begin::Form-->
-                  <form>
+                  <form method="POST" action="{{route('kategori.update', ['id' => $cari->id])}}" enctype="multipart/form-data">
+                    @csrf
                     <!--begin::Body-->
                     <div class="card-body">
                       <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nama Kategori</label>
                         <input
-                          type="email"
+                          type="text"
+                          name="nama"
                           class="form-control"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
+                          value="{{$cari->nama}}"
                           placeholder="Nama Kategori"
+                          required
                         />
                       </div>
                     </div>

@@ -38,16 +38,41 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <!-- {{-- Data dummmy --}}
                         <tr>
                           <td>1</td>
                           <td>Tugas Utama</td>
                           <td>
                             <div class="btn-group">
-                              <a href="{{route('kategori.edit')}}" class="btn btn-sm btn-warning">Edit</a>
                               <a href="" class="btn btn-sm btn-danger">Hapus</a>
                             </div>
                           </td>
-                        </tr>
+                        </tr> -->
+
+                        <!-- Data Dinamis -->
+                        <?php 
+                          $number = 1;
+                        ?>
+                        @if (count($data) > 0)
+                          @foreach ($data as $item)
+                          <tr>
+                              <td>{{$number++}}</td>
+                              <td>{{$item->nama}}</td>
+                              <td>
+                                  <div class="btn-group">
+                                    <a href="{{route('kategori.edit', ['id' => $item->id])}}" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="{{route('kategori.destroy', ['id' => $item->id])}}" class="btn btn-sm btn-danger">Hapus</a>
+                                  </div>
+                              </td>
+                          </tr>
+                                                      
+                          @endforeach
+                        @else
+                          <tr>
+                              <td colspan="3" class="text-center"> Data Kosong</td>
+                          </tr>
+                                                
+                        @endif
                       </tbody>
                     </table>
                   </div>
