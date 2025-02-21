@@ -3,63 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tugas;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 
 class TugasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tugas = Tugas::with('kategori')->paginate(10);
+        return view('halaman.tugas.index', compact('tugas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $kategori = Kategori::all();
+        return view('halaman.tugas.tambah', compact('kategori'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'id_kategoris' => 'required|exists:kategoris,id',
+        ]);
+
+        Tugas::create($request->only(['nama', 'id_kategoris']));
+
+        return redirect()->route('tugas')->with('success', 'Tugas berhasil ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Tugas $tugas)
+    public function edit($id)
     {
-        //
+        $tugas = Tugas::findOrFail($id);
+        $kategori = Kategori::all();
+        return view('halaman.tugas.edit', compact('tugas', 'kategori'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tugas $tugas)
+    public function update(Request $request, $id)
     {
-        //
+
+        $tugas = Tugas::findOrFail($id);
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'id_kategoris' => 'required|exists:kategoris,id'
+        ]);
+    
+        $tugas->update([
+            'nama' => $request->nama,
+            'id_kategoris' => $request->id_kategoris
+        ]);
+    
+        return redirect()->route('tugas')->with('success', 'Tugas berhasil diperbarui!');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Tugas $tugas)
+    public function destroy($id)
     {
-        //
-    }
+        $tugas = Tugas::findOrFail($id);
+        $tugas->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Tugas $tugas)
-    {
-        //
+        return redirect()->route('tugas')->with('success', 'Tugas berhasil dihapus!');
     }
 }

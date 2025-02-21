@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\KategoriController; // Tambahkan Ini ya
+// Tambahkan Ini ya
+use App\Http\Controllers\TugasController;
+use App\Http\Controllers\KategoriController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,12 +39,22 @@ Route::get('/destroy-kategori/{id}', [KategoriController::class, 'destroy'])->na
 // })->name('kategori.edit');
 
 //ROUTE TUGAS
-Route::get('/tugas', function () {
-    return view('halaman.tugas.index');
-})->name('tugas');
-Route::get('/tambah-tugas', function () {
-    return view('halaman.tugas.tambah');
-})->name('tugas.tambah');
-Route::get('/edit-tugas', function () {
-    return view('halaman.tugas.edit');
-})->name('tugas.edit');
+Route::get('/tugas', [TugasController::class, 'index'])->name('tugas');
+Route::get('/tambah-tugas', [TugasController::class, 'create'])->name('tugas.tambah');
+Route::post('/store-tugas', [TugasController::class, 'store'])->name('tugas.store');
+Route::get('/edit-tugas/{id}', [TugasController::class, 'edit'])->name('tugas.edit');
+Route::put('/update-tugas/{id}', [TugasController::class, 'update'])->name('tugas.update');
+Route::put('/tugas/{id}', [TugasController::class, 'update'])->name('tugas.update');
+Route::get('/destroy-tugas/{id}', [TugasController::class, 'destroy'])->name('tugas.destroy');
+Route::delete('/tugas/{id}', [TugasController::class, 'destroy'])->name('tugas.hapus');
+
+
+// Route::get('/tugas', function () {
+//     return view('halaman.tugas.index');
+// })->name('tugas');
+// Route::get('/tambah-tugas', function () {
+//     return view('halaman.tugas.tambah');
+// })->name('tugas.tambah');
+// Route::get('/edit-tugas', function () {
+//     return view('halaman.tugas.edit');
+// })->name('tugas.edit');

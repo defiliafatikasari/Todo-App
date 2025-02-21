@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('tugas', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            // $table->bigInteger('id_kategori'); tidak usah diapa apain dulu
+            $table->unsignedBigInteger('id_kategoris');
             $table->timestamps();
+            $table->foreign('id_kategoris')->references('id')->on('kategoris')->onDelete('cascade');
         });
     }
 
